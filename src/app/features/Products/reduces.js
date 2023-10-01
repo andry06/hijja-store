@@ -1,4 +1,4 @@
-import { SET_CATEGORY, SET_SEARCH } from "./constants"
+import { LIST_CATEGORY, SET_CATEGORY, SET_SEARCH } from "./constants"
 
 const initialState = {
     category: '',

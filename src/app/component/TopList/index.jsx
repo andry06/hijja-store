@@ -15,7 +15,7 @@ const TopList = ({dataTopList}) => {
                                 <span style={{ fontSize: '100%' }}>Dress</span>
                                 <br />
                                 <h6 style={{ fontSize: '100%' }}>{data.name}</h6>
-                                <span className="text-danger" style={{ fontSize: '90%' }}>Beli Sekarang  <BsArrowRight /></span>
+                                <span className="text-danger" style={{ fontSize: '90%', cursor: "pointer" }}>Beli Sekarang  <BsArrowRight /></span>
                             </Col>
                         </Row>
                     </Col>

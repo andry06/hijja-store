@@ -1,4 +1,4 @@
-import { SET_CATEGORY, SET_SEARCH } from "./constants";
+import { LIST_CATEGORY, SET_CATEGORY, SET_SEARCH } from "./constants";
 
 export const actSetCategory = (payload) => ({
     type: SET_CATEGORY,
@@ -9,4 +9,6 @@ export const actSetSearch = (payload) => ({
     type: SET_SEARCH,
     payload
 });
+
+
 

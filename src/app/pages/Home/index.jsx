@@ -1,16 +1,15 @@
-import { Button, Card, Col, Container, Image, Row, Spinner } from "react-bootstrap";
+import { Button,  Container,  Spinner } from "react-bootstrap";
 import { apiGetProduct } from "../../api/sistemtoko";
 import { useEffect, useState } from "react";
 import Jumbotron from "../../component/Jumbotron";
 import TopList from "../../component/TopList";
-import { BsFillStarFill, BsHandbag, BsPlusCircleFill } from "react-icons/bs";
-import mukena from "../../../image/mukena.webp";
-import dress from "../../../image/dress.png";
-import jacket from "../../../image/jacket.png";
-import tas from "../../../image/tas.png";
-import pants from "../../../image/pants.png";
-import hijab from "../../../image/hijab.png";
+import { BsPlusCircleFill } from "react-icons/bs";
 import CardProduct from "../../component/CardProduct";
+import TopCategory from "../../component/TopCategory";
+import Keunggulan from "../../component/Keunggulan";
+import { useSelector } from "react-redux";
+
+import BottomMenu from "../../component/BottomMenu";
 
 const HomePage = () => {
     const [Loading, setLoading] = useState(true);
@@ -19,104 +18,75 @@ const HomePage = () => {
     const [reload, setReload] = useState(true);
     const [dataJumbotron, setJumbotron] = useState([]);
     const [dataTopList, setTopList] = useState([])
+    const produk = useSelector(state => state.product);
+    const search = produk.search;
+    
 
     useEffect(() => {  
-        console.log(reload)
-        apiGetProduct(Page)
-        .then(res => {
-            setDataProduct([...dataProduct, ...res.data.aaData])
-            if(reload){
-                const jumbotron = res.data.aaData.filter(function(filter) { return filter.name == "Lady Olea" })
-                setJumbotron(jumbotron)
-                const toplist = res.data.aaData.filter(function(filter) { return filter.name == "Corsa Blu" || filter.name == "Cortese" || filter.name == "Dignita White" })
-                setTopList(toplist)
-            }
-        })
-        .catch(err => {
-        console.log(err.message)
-        })
-        .finally(() => {
-            setTimeout(() => {
-                setLoading(false);
-            }, 2000);
-        });
+        if(reload){
+            apiGetProduct(Page, search)
+            .then(res => {
+                setDataProduct(res.data.aaData)
+                    const jumbotron = res.data.aaData.filter(function(filter) { return filter.name == "Lady Olea" })
+                    setJumbotron(jumbotron)
+                    const toplist = res.data.aaData.filter(function(filter) { return filter.name == "Corsa Blu" || filter.name == "Cortese" || filter.name == "Dignita White" })
+                    setTopList(toplist)
+            })
+            .catch(err => {
+            console.log(err.message)
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 500);
+            });
+        }else{
+            apiGetProduct(Page, search)
+            .then(res => {
+                setDataProduct(res.data.aaData)
+            })
+            .catch(err => {
+            console.log(err.message)
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 500);
+            });
+        }
+    },[search]);
+
+    useEffect(() => {  
+        if(!reload){
+            apiGetProduct(Page, search)
+            .then(res => {
+                setDataProduct([...dataProduct, ...res.data.aaData])
+            })
+            .catch(err => {
+            console.log(err.message)
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 500);
+            });
+        }
     },[Page]);
 
-
-// window.onscroll = function() {
-//     var scrollLimit = 700;
-//     if (window.scrollY <= scrollLimit) {
-//       alert("x")
-//     }
-// }
 
     return (
         <div>
             {dataJumbotron.length !== 0 &&
             <Jumbotron dataJumbotron={dataJumbotron} />
             }
+
             {dataTopList.length !== 0 && 
             <TopList dataTopList={dataTopList}/>
             }
-            <Container className="mt-4">
-                <Row>
-                    <Col xs={6} className="text-start fw-bold fs-5 ps-3">Jelajahi Kategori</Col>
-                    <Col xs={6} className="text-end pe-3" ><Button variant="outline-dark" className="btn btn-sm me-n4" >Lihat Semua</Button></Col>
-                </Row>
-            </Container>
-            <Container className="mt-2">
-                <Row className="ps-3 pe-3">
-                    <Col md={2} xs={4} style={{ cursor:'pointer' }}>
-                        <Row style={{ border: '1px solid #D3D3D3' }} className="pb-3">
-                            <Image src={mukena} width={'100%'} height={120} />
-                            <span className="fw-bold" style={{ fontSize: '100%' }}>Mukena</span>
-                            <br />
-                            <span style={{ fontSize: '90%' }}>330 Product</span>
-                        </Row>
-                    </Col>
-                    <Col md={2} xs={4} style={{ cursor:'pointer' }}>
-                        <Row style={{ border: '1px solid #D3D3D3' }} className="pb-3">
-                            <Image src={dress} width={'100%'} height={120} />
-                            <span className="fw-bold" style={{ fontSize: '100%' }}>Dress</span>
-                            <br />
-                            <span style={{ fontSize: '90%' }}>230 Product</span>
-                        </Row>
-                    </Col>
-                    <Col md={2} xs={4} style={{ cursor:'pointer' }}>
-                        <Row style={{ border: '1px solid #D3D3D3' }} className="pb-3">
-                            <Image src={jacket} width={'100%'} height={120} />
-                            <span className="fw-bold" style={{ fontSize: '100%' }}>Jacket</span>
-                            <br />
-                            <span style={{ fontSize: '90%' }}>202 Product</span>
-                        </Row>
-                    </Col>
-                    <Col md={2} xs={4} style={{ cursor:'pointer' }}>
-                        <Row style={{ border: '1px solid #D3D3D3' }} className="pb-3">
-                            <Image src={tas} width={'100%'} height={120} />
-                            <span className="fw-bold" style={{ fontSize: '100%' }}>Bag</span>
-                            <br />
-                            <span style={{ fontSize: '90%' }}>104 Product</span>
-                        </Row>
-                    </Col>
-                    <Col md={2} xs={4}  style={{ cursor:'pointer' }}>
-                        <Row style={{ border: '1px solid #D3D3D3' }} className="pb-3">
-                            <Image src={pants} width={'100%'} height={120} />
-                            <span className="fw-bold" style={{ fontSize: '100%' }}>Pants</span>
-                            <br />
-                            <span style={{ fontSize: '90%' }}>88 Product</span>
-                        </Row>
-                    </Col>
-                    <Col md={2} xs={4} style={{ cursor:'pointer' }}>
-                        <Row style={{ border: '1px solid #D3D3D3' }} className="pb-3">
-                            <Image src={hijab} width={'100%'} height={120} />
-                            <span className="fw-bold" style={{ fontSize: '100%' }}>Hijab</span>
-                            <br />
-                            <span style={{ fontSize: '90%' }}>402 Product</span>
-                        </Row>
-                    </Col>
-                </Row>
-            </Container>
-            <Container className="mt-4">
+
+            <TopCategory />
+
+            <Container className="mt-4 mb-4">
                 <CardProduct dataProduct={dataProduct} />
                 <br />
                 {Loading ?
@@ -125,15 +95,27 @@ const HomePage = () => {
                 </Button> :
                 <Button className="btn btn-dark" 
                     onClick={() => {
+                        setTimeout(() => {
+                            setLoading(true);
+                        }, 500)
                         setReload(false);
-                        setPage(Page+1)
+                        setPage(Page+1);
                     }}>
                     <BsPlusCircleFill /> Load More
                 </Button>
                 }
-                
-                
             </Container>
+           
+           <Keunggulan />
+
+           <BottomMenu />
+     
+           <div style={{ backgroundColor: "#EDEDEE", marginTop: "50px" }} className="py-3">
+            <Container>
+                All Rights Reserved © 2019
+            </Container>
+           </div>
+           
         </div>
     )
 }
