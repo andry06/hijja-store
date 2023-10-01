@@ -1,23 +1,25 @@
-import logo from './logo.svg';
 import './App.css';
-
+import store from "./app/features/store"
+import HijjaStore from './app/index.jsx';
+import HomePage from './app/pages/Home';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import { Provider } from 'react-redux';
+const { BrowserRouter, Routes, Route } = require("react-router-dom");
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HijjaStore />} >
+                <Route path="" element={<HomePage />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </Provider>
     </div>
   );
 }
