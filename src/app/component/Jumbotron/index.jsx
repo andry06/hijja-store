@@ -1,4 +1,4 @@
-import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import { Button, Container, Image } from "react-bootstrap";
 import jumbotron from "../../../image/jumbotron.png"
 import { BsHandbag } from "react-icons/bs";
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button,  Container,  Spinner } from "react-bootstrap";
 import { apiGetProduct } from "../../api/sistemtoko";
 import { useEffect, useState } from "react";
@@ -24,12 +25,12 @@ const HomePage = () => {
 
     useEffect(() => {  
         if(reload){
-            apiGetProduct(Page, search)
+            apiGetProduct(1, search)
             .then(res => {
                 setDataProduct(res.data.aaData)
-                    const jumbotron = res.data.aaData.filter(function(filter) { return filter.name == "Lady Olea" })
+                    const jumbotron = res.data.aaData.filter(function(filter) { return filter.name === "Lady Olea" })
                     setJumbotron(jumbotron)
-                    const toplist = res.data.aaData.filter(function(filter) { return filter.name == "Corsa Blu" || filter.name == "Cortese" || filter.name == "Dignita White" })
+                    const toplist = res.data.aaData.filter(function(filter) { return filter.name === "Corsa Blu" || filter.name === "Cortese" || filter.name === "Dignita White" })
                     setTopList(toplist)
             })
             .catch(err => {
@@ -41,7 +42,7 @@ const HomePage = () => {
                 }, 500);
             });
         }else{
-            apiGetProduct(Page, search)
+            apiGetProduct(1, search)
             .then(res => {
                 setDataProduct(res.data.aaData)
             })
@@ -54,7 +55,8 @@ const HomePage = () => {
                 }, 500);
             });
         }
-    },[search]);
+
+    },[search, reload]);
 
     useEffect(() => {  
         if(!reload){
@@ -71,6 +73,7 @@ const HomePage = () => {
                 }, 500);
             });
         }
+
     },[Page]);
 
 
@@ -115,7 +118,7 @@ const HomePage = () => {
                 All Rights Reserved © 2019
             </Container>
            </div>
-           
+
         </div>
     )
 }
